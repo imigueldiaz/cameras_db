@@ -6,7 +6,7 @@
       <synchronize>true</synchronize>
       <remarks>DSLR and mirrorless cameras DB</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\imigu\Proyectos\cameras_db\cameras_db.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/cameras_db/cameras_db.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

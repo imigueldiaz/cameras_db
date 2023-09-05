@@ -8,7 +8,7 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 VERSION = "0.0.1"
-DESCRIPTION = "A simple package to maintain and search over a SQLite database of DSLR and mirror-less cameras."
+DESCRIPTION = "A simple package to maintain and search over a SQLite database of DSLR and mirror-less cameras_list."
 
 # Setting up
 setup(
@@ -24,8 +24,8 @@ setup(
     keywords=[
         "python",
         "photography",
-        "DSLR cameras",
-        "mirror-less cameras",
+        "DSLR cameras_list",
+        "mirror-less cameras_list",
         "database",
         "technical specifications",
     ],
