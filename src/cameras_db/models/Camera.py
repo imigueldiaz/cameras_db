@@ -23,19 +23,19 @@ class Camera:
 
     def __init__(
         self,
+        brand: str,
+        model: str,
         sensor_size_w: float,
         sensor_size_h: float,
         sensor_px_w: int,
         sensor_px_h: int,
-        url: str,
-        image_url: str,
-        brand: str,
-        model: str,
-        iso: [str],
-        also_known_as: str,
-        year: int,
-        max_aperture: str,
-        crop_factor: str,
+        url: str = "",
+        image_url: str = "",
+        iso: [str] = None,
+        also_known_as: str = "",
+        year: int = None,
+        max_aperture: str = "",
+        crop_factor: str = "",
     ) -> None:
         """
         Initializes a new Camera object.
