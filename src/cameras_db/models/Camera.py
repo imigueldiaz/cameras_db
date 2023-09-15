@@ -1,60 +1,64 @@
+from math import sqrt
 from typing import Optional
 
 
 class Camera:
+    """
+    A camera
+    """
     def __init__(
-        self,
-        brand: str,
-        model: str,
-        sensor_size_w: float,
-        sensor_size_h: float,
-        sensor_px_w: int,
-        sensor_px_h: int,
-        url: Optional[str] = None,
-        image_url: Optional[str] = None,
-        also_known_as: Optional[str] = None,
-        year: Optional[int] = None,
-        megapixels: Optional[float] = None,
-        effective_megapixels: Optional[float] = None,
-        total_megapixels: Optional[float] = None,
-        sensor_size: Optional[str] = None,
-        sensor_type: Optional[str] = None,
-        sensor_resolution: Optional[str] = None,
-        max_image_resolution: Optional[str] = None,
-        crop_factor: Optional[float] = None,
-        optical_zoom: Optional[float] = None,
-        digital_zoom: Optional[int] = None,
-        iso: Optional[str] = None,
-        raw_support: Optional[int] = None,
-        manual_focus: Optional[int] = None,
-        normal_focus_range: Optional[str] = None,
-        macro_focus_range: Optional[str] = None,
-        focal_length_35mm_equiv: Optional[str] = None,
-        aperture_priority: Optional[int] = None,
-        max_aperture: Optional[str] = None,
-        max_aperture_35mm_equiv: Optional[str] = None,
-        depth_of_field: Optional[str] = None,
-        metering: Optional[str] = None,
-        exposure_compensation: Optional[str] = None,
-        shutter_priority: Optional[int] = None,
-        min_shutter_speed: Optional[str] = None,
-        max_shutter_speed: Optional[str] = None,
-        built_in_flash: Optional[int] = None,
-        external_flash: Optional[int] = None,
-        viewfinder: Optional[str] = None,
-        white_balance_presets: Optional[int] = None,
-        screen_size: Optional[str] = None,
-        screen_resolution: Optional[str] = None,
-        video_capture: Optional[int] = None,
-        max_video_resolution: Optional[str] = None,
-        storage_types: Optional[str] = None,
-        usb: Optional[str] = None,
-        hdmi: Optional[int] = None,
-        wireless: Optional[int] = None,
-        gps: Optional[str] = None,
-        battery: Optional[str] = None,
-        weight: Optional[float] = None,
-        dimensions: Optional[str] = None,
+            self,
+            brand: str,
+            model: str,
+            sensor_size_w: float,
+            sensor_size_h: float,
+            sensor_px_w: int,
+            sensor_px_h: int,
+            url: Optional[str] = None,
+            image_url: Optional[str] = None,
+            also_known_as: Optional[str] = None,
+            year: Optional[int] = None,
+            megapixels: Optional[float] = None,
+            effective_megapixels: Optional[float] = None,
+            total_megapixels: Optional[float] = None,
+            sensor_size: Optional[str] = None,
+            sensor_type: Optional[str] = None,
+            sensor_resolution: Optional[str] = None,
+            max_image_resolution: Optional[str] = None,
+            crop_factor: Optional[float] = None,
+            optical_zoom: Optional[float] = None,
+            digital_zoom: Optional[int] = None,
+            iso: Optional[str] = None,
+            raw_support: Optional[int] = None,
+            manual_focus: Optional[int] = None,
+            normal_focus_range: Optional[str] = None,
+            macro_focus_range: Optional[str] = None,
+            focal_length_35mm_equiv: Optional[str] = None,
+            aperture_priority: Optional[int] = None,
+            max_aperture: Optional[str] = None,
+            max_aperture_35mm_equiv: Optional[str] = None,
+            depth_of_field: Optional[str] = None,
+            metering: Optional[str] = None,
+            exposure_compensation: Optional[str] = None,
+            shutter_priority: Optional[int] = None,
+            min_shutter_speed: Optional[str] = None,
+            max_shutter_speed: Optional[str] = None,
+            built_in_flash: Optional[int] = None,
+            external_flash: Optional[int] = None,
+            viewfinder: Optional[str] = None,
+            white_balance_presets: Optional[int] = None,
+            screen_size: Optional[str] = None,
+            screen_resolution: Optional[str] = None,
+            video_capture: Optional[int] = None,
+            max_video_resolution: Optional[str] = None,
+            storage_types: Optional[str] = None,
+            usb: Optional[str] = None,
+            hdmi: Optional[int] = None,
+            wireless: Optional[int] = None,
+            gps: Optional[str] = None,
+            battery: Optional[str] = None,
+            weight: Optional[float] = None,
+            dimensions: Optional[str] = None,
     ) -> None:
         self.brand = brand
         self.model = model
@@ -107,3 +111,16 @@ class Camera:
         self.battery = battery
         self.weight = weight
         self.dimensions = dimensions
+
+    def diagonal_size_mm(self) -> float:
+        """Calculate the diagonal size of the sensor in millimeters."""
+        return sqrt(self.sensor_size_w ** 2 + self.sensor_size_h ** 2)
+
+    def diagonal_size_px(self) -> float:
+        """Calculate the diagonal size of the sensor in pixels."""
+        return sqrt(self.sensor_px_w ** 2 + self.sensor_px_h ** 2)
+
+    @property
+    def sensor(self) -> tuple:
+        """Return a tuple containing the sensor attributes."""
+        return self.sensor_size_w, self.sensor_size_h, self.sensor_px_w, self.sensor_px_h

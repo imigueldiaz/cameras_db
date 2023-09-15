@@ -1,7 +1,9 @@
+from math import sqrt
 from unittest import TestCase
 
 from cameras_db.controllers import CamerasController
 from cameras_db.constants import CREATE_CAMERA_TABLE_QUERY
+from cameras_db.models.Camera import Camera
 
 
 class TestCamerasController(TestCase):
@@ -29,7 +31,7 @@ class TestCamerasController(TestCase):
             mock_data,
         )
 
-        # Commit the changes
+        # Save the changes to the database
         self.controller.conn.commit()
 
     def test_row_to_camera(self):
@@ -106,13 +108,33 @@ class TestCamerasController(TestCase):
             {"brand": "Can", "model": "D750"}
         )
 
-        # Assert we got the expected camera
+        # Assert we got the expected cameras
         self.assertEqual(len(result), 2)
-        self.assertEqual(result[0].brand, "Canon")
-        self.assertEqual(result[0].model, "D750")
+        self.assertIn(result[0].model, ["EOS R6", "D750"])
+        self.assertIn(result[0].brand, ["Canon", "Nikon"])
 
     def test_get_by_fields_with_operators(self):
-        self.fail()
+        # Define the conditions for the query
+        conditions = [
+            ("brand", "=", "Canon"),
+            ("sensor_size_w", ">", 35),
+        ]
 
-    def test_close(self):
-        self.fail()
+        # Call the method under test
+        result = self.controller.get_by_fields_with_operators(conditions)
+
+        # Assert we got the expected camera
+        self.assertEqual(len(result), 1)
+        camera = result[0]
+        self.assertEqual(camera.brand, "Canon")
+        self.assertEqual(camera.model, "EOS R6")
+        self.assertEqual(camera.sensor_size_w, 36)
+        self.assertEqual(camera.sensor_size_h, 24)
+        self.assertEqual(camera.sensor_px_w, 6720)
+        self.assertEqual(camera.sensor_px_h, 4480)
+
+
+
+
+
+

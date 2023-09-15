@@ -1,7 +1,4 @@
 from sqlite3 import Connection, Cursor
-from unittest.mock import Mock
-
-import cameras_db.models.Camera
 import sqlite3
 from typing import List, Union, Dict, Optional
 
@@ -16,9 +13,20 @@ class CamerasController:
         self.conn = sqlite3.connect(db_path)
         self.cursor = cursor if cursor is not None else self.conn.cursor()
 
-    def row_to_camera(self, row, columns) -> Camera:
-        row_dict = dict(zip(columns, row))
-        print("Row dict:", row_dict)
+    @staticmethod
+    def row_to_camera(row=None, columns=None, row_dict=None) -> Camera:
+        if row_dict is None:
+            row_dict = {}
+            for column_name, value in zip(columns, row):
+                row_dict[column_name] = value
+        else:
+            corrected_row_dict = {}
+            for column_tuple in columns:
+                column_name = column_tuple[0]
+                corrected_row_dict[column_name] = row_dict[column_tuple[0]]
+
+            row_dict = corrected_row_dict
+
         return Camera(**row_dict)
 
     def get_by_field(self, field: str, value: Union[str, int, float]) -> List[Camera]:
@@ -29,7 +37,7 @@ class CamerasController:
         )
         rows = self.cursor.fetchall()
         columns = [desc[0] for desc in self.cursor.description]
-        cameras = [self.row_to_camera(row, columns) for row in rows]
+        cameras = [CamerasController.row_to_camera(row, columns) for row in rows]
         return cameras if cameras else []
 
     def get_by_field_like(self, field: str, value: str) -> List[Camera]:
@@ -42,7 +50,7 @@ class CamerasController:
         )
         rows = self.cursor.fetchall()
         columns = [desc[0] for desc in self.cursor.description]
-        cameras = [self.row_to_camera(row, columns) for row in rows]
+        cameras = [CamerasController.row_to_camera(row, columns) for row in rows]
         return cameras if cameras else []
 
     def get_by_fields_like_and(self, field_value_dict: Dict[str, str]) -> List[Camera]:
@@ -56,7 +64,7 @@ class CamerasController:
         rows = self.cursor.fetchall()
         columns = [column[0] for column in self.cursor.description]
 
-        return [self.row_to_camera(row, columns) for row in rows] if rows else []
+        return [CamerasController.row_to_camera(row, columns) for row in rows] if rows else []
 
     def get_by_fields_like_or(self, field_value_dict: Dict[str, str]) -> List[Camera]:
         query_fields = [
@@ -69,38 +77,32 @@ class CamerasController:
         rows = self.cursor.fetchall()
         columns = [column[0] for column in self.cursor.description]
 
-        return [self.row_to_camera(row, columns) for row in rows] if rows else []
+        return [CamerasController.row_to_camera(row, columns) for row in rows] if rows else []
 
-    def get_by_fields_with_operators(
-        self, field_value_dict: Dict[str, str], operators: Dict[str, str]
-    ) -> List[Camera]:
-        """
-        Retrieves a list of Camera objects from the database based on the given field-value dictionary and operators.
+    def get_by_fields_with_operators(self, conditions):
+        query = "SELECT * FROM cameras WHERE "
+        query_conditions = []
+        query_values = []
 
-        Parameters:
-            field_value_dict (Dict[str, str]): A dictionary mapping field names to their corresponding values.
-            operators (Dict[str, str]): A dictionary mapping field names to their corresponding operators.
+        for field, operator, value in conditions:
+            query_conditions.append(f"{field} {operator} ?")
+            query_values.append(value)
 
-        Returns:
-            List[Camera]: A list of Camera objects that match the given field-value criteria.
-            If no cameras match the criteria, an empty list is returned.
-        """
-        query_fields = []
-        params = []
+        query += " AND ".join(query_conditions)
+        self.cursor.execute(query, query_values)
 
-        for field, value in field_value_dict.items():
-            operator = operators.get(field, "LIKE")  # Default operator is 'LIKE'
-            if "LIKE" in operator.upper():
-                value = f"%{value}%"  # Add wildcards for LIKE operator
-            query_fields.append(f"{field} {operator} %s")
-            params.append(value)
+        # Fetch the rows and create a list to store the Camera objects
+        cameras = []
+        for row in self.cursor.fetchall():
+            # Ensure column_name is a string
 
-        query = "SELECT * FROM cameras WHERE " + " AND ".join(query_fields)
+            row_dict = {str(column_name): row[i] for i, (column_name, *_) in enumerate(self.cursor.description)}
 
-        self.cursor.execute(query, params)
-        rows = self.cursor.fetchall()
+            camera = CamerasController.row_to_camera(row_dict=row_dict, columns=self.cursor.description)
 
-        return [self.row_to_camera(row) for row in rows] if rows else []
+            cameras.append(camera)
+
+        return cameras
 
     def close(self):
         """
