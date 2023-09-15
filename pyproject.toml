@@ -8,6 +8,7 @@ version = "0.0.1"
 description = "A simple package to maintain and search over a SQLite database of DSLR and mirror-less cameras_list."
 authors = [{name = "imigueldiaz (Ignacio de Miguel Diaz)", email = "imigueldiaz@gmail.com"}]
 license = "GPLv3"
+readme = "README.md"
 keywords = ["python", "photography", "DSLR cameras_list", "mirror-less cameras list", "database", "technical specifications"]
 classifiers = [
     "Development Status :: 1 - Planning",

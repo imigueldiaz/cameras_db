@@ -1,7 +1,8 @@
 import csv
-import json
 import sqlite3
 from typing import Dict
+
+from cameras_db import CREATE_CAMERA_TABLE_QUERY
 
 
 class CameraDBFiller:
@@ -82,62 +83,8 @@ class CameraDBFiller:
 
         This function does not return anything.
         """
-        query = f"""
-    CREATE TABLE {self.table_name} (
-        url TEXT,
-        image_url TEXT,
-        brand TEXT,
-        model TEXT,
-        also_known_as TEXT,
-        year INTEGER,
-        megapixels REAL,
-        effective_megapixels REAL,
-        total_megapixels REAL,
-        sensor_size TEXT,
-        sensor_type TEXT,
-        sensor_resolution TEXT,
-        max_image_resolution TEXT,
-        crop_factor REAL,
-        optical_zoom REAL,
-        digital_zoom INTEGER,
-        iso TEXT,
-        raw_support INTEGER,
-        manual_focus INTEGER,
-        normal_focus_range TEXT,
-        macro_focus_range TEXT,
-        focal_length_35mm_equiv TEXT,
-        aperture_priority INTEGER,
-        max_aperture TEXT,
-        max_aperture_35mm_equiv TEXT,
-        depth_of_field TEXT,
-        metering TEXT,
-        exposure_compensation TEXT,
-        shutter_priority INTEGER,
-        min_shutter_speed TEXT,
-        max_shutter_speed TEXT,
-        built_in_flash INTEGER,
-        external_flash INTEGER,
-        viewfinder TEXT,
-        white_balance_presets INTEGER,
-        screen_size TEXT,
-        screen_resolution TEXT,
-        video_capture INTEGER,
-        max_video_resolution TEXT,
-        storage_types TEXT,
-        usb TEXT,
-        hdmi INTEGER,
-        wireless INTEGER,
-        gps TEXT,
-        battery TEXT,
-        weight REAL,
-        dimensions TEXT,
-        sensor_size_w REAL,
-        sensor_size_h REAL,
-        sensor_px_w INTEGER,
-        sensor_px_h INTEGER
-    )
-    """
-        self.cursor.execute(query)
+
+        self.cursor.execute(CREATE_CAMERA_TABLE_QUERY)
         print(f"Created table {self.table_name}")
 
     def read_csv_and_insert(self) -> None:
