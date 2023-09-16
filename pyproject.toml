@@ -1,31 +1,21 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = [ "setuptools >= 42", "wheel", "build", "twine",]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "cameras_db"
 version = "0.0.1"
 description = "A simple package to maintain and search over a SQLite database of DSLR and mirror-less cameras_list."
-authors = [{name = "imigueldiaz (Ignacio de Miguel Diaz)", email = "imigueldiaz@gmail.com"}]
-license = "GPLv3"
 readme = "README.md"
-keywords = ["python", "photography", "DSLR cameras_list", "mirror-less cameras list", "database", "technical specifications"]
-classifiers = [
-    "Development Status :: 1 - Planning",
-    "Intended Audience :: Developers",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
-    "Operating System :: Unix",
-    "Operating System :: MacOS :: MacOS X",
-    "Operating System :: Microsoft :: Windows",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Database",
-    "Natural Language :: English",
-]
-long-description = {file = "readme.py", attr = "long_description", format = "text/markdown"}
+keywords = [ "python", "photography", "DSLR cameras_list", "mirror-less cameras list", "database", "technical specifications",]
+classifiers = [ "Development Status :: 1 - Planning", "Intended Audience :: Developers", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3.11", "Operating System :: Unix", "Operating System :: MacOS :: MacOS X", "Operating System :: Microsoft :: Windows", "License :: OSI Approved :: GNU General Public License v3 (GPLv3)", "Topic :: Software Development :: Libraries :: Python Modules", "Topic :: Database", "Natural Language :: English",]
+[[project.authors]]
+name = "imigueldiaz (Ignacio de Miguel Diaz)"
+email = "imigueldiaz@gmail.com"
+
+[project.license]
+file = "LICENSE"
 
 [project.urls]
 homepage = "https://github.com/imigueldiaz/cameras_db"
 
-[project.scripts]
