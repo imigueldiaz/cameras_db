@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cameras_db"
-version = "0.0.1"
+version = "0.0.2"
 description = "A simple package to maintain and search over a SQLite database of DSLR and mirror-less cameras_list."
 readme = "README.md"
 keywords = [ "python", "photography", "DSLR cameras_list", "mirror-less cameras list", "database", "technical specifications",]
